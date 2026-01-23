@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="WritingTool.AskWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Ask AI">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="RootGrid" Padding="16" KeyDown="Grid_KeyDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Row -->
+        <Grid Grid.Row="0" Margin="0,0,0,12" 
+              x:Name="HeaderRow"
+              Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- App Logo -->
+            <Border Grid.Column="0" 
+                    Width="24" Height="24" 
+                    CornerRadius="6"
+                    Margin="0,0,10,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#6366F1" Offset="0"/>
+                        <GradientStop Color="#8B5CF6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <FontIcon Glyph="&#xE8D2;" FontSize="12" Foreground="White" 
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <TextBlock x:Name="AskTitleText" 
+                       Grid.Column="1" 
+                       Text="Ask AI" 
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"
+                       FontSize="14"/>
+
+            <!-- New Chat Button -->
+            <Button Grid.Column="2" 
+                    x:Name="NewChatButton"
+                    Style="{StaticResource IconButtonStyle}"
+                    Click="NewChatButton_Click"
+                    Visibility="Collapsed">
+                <FontIcon Glyph="&#xE710;" FontSize="10"/>
+            </Button>
+            
+            <Button x:Name="CloseButton"
+                    Grid.Column="3" 
+                    Style="{StaticResource IconButtonStyle}"
+                    Click="CloseButton_Click">
+                <FontIcon Glyph="&#xE8BB;" FontSize="10"/>
+            </Button>
+        </Grid>
+
+        <!-- Response Area with Animated Transitions -->
+        <ScrollViewer Grid.Row="1" 
+                      x:Name="ResponseScrollViewer"
+                      VerticalScrollBarVisibility="Auto"
+                      Visibility="Collapsed"
+                      Margin="0,0,0,12">
+            <StackPanel x:Name="MessagesPanel" Spacing="12">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                        <RepositionThemeTransition/>
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+                <!-- Messages will be added here dynamically -->
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Loading Indicator -->
+        <StackPanel Grid.Row="1" 
+                    x:Name="LoadingPanel"
+                    Visibility="Collapsed"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="8">
+            <ProgressRing IsActive="True" Width="24" Height="24"/>
+            <TextBlock x:Name="ThinkingText" Text="Thinking..." Opacity="0.7" FontSize="12"/>
+        </StackPanel>
+
+        <!-- Input Row -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0" 
+                     x:Name="InputBox" 
+                     PlaceholderText="Ask anything... (Ctrl+Enter to send)"
+                     Style="{StaticResource ModernTextBoxStyle}"
+                     Margin="0,0,8,0"
+                     PreviewKeyDown="InputBox_PreviewKeyDown"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     MaxHeight="120"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <Button Grid.Column="1" 
+                    x:Name="SendButton"
+                    Click="SendButton_Click"
+                    Style="{StaticResource AccentButtonStyle}"
+                    CornerRadius="6"
+                    Padding="12,10">
+                <FontIcon Glyph="&#xE724;" FontSize="14"/>
+            </Button>
+        </Grid>
+    </Grid>
+    
+</Window>

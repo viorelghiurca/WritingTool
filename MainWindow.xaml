@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="WritingTool.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WritingTool"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="WritingTool">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="RootGrid" Padding="16" KeyDown="Grid_KeyDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Row -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- App Logo -->
+            <Border Grid.Column="0" 
+                    Width="32" Height="32" 
+                    CornerRadius="8"
+                    Margin="0,0,12,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#6366F1" Offset="0"/>
+                        <GradientStop Color="#8B5CF6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <FontIcon Glyph="&#xE8D2;" FontSize="16" Foreground="White" 
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- Title & Edit Button -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="WritingTool" 
+                           Style="{StaticResource HeaderTextStyle}"
+                           VerticalAlignment="Center"/>
+                <Button x:Name="EditModeButton"
+                        Content="✏️" 
+                        Style="{StaticResource IconButtonStyle}"
+                        Margin="8,0,0,0"
+                        Click="EditModeButton_Click"/>
+            </StackPanel>
+
+            <!-- Close Button -->
+            <Button x:Name="CloseButton"
+                    Grid.Column="2" 
+                    Style="{StaticResource IconButtonStyle}"
+                    Click="CloseButton_Click">
+                <FontIcon Glyph="&#xE8BB;" FontSize="12"/>
+            </Button>
+        </Grid>
+
+        <!-- Input Row -->
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0" 
+                     x:Name="InputBox" 
+                     PlaceholderText="Describe your change..." 
+                     Style="{StaticResource ModernTextBoxStyle}"
+                     Margin="0,0,8,0"/>
+            <Button x:Name="SendButton"
+                    Grid.Column="1" 
+                    Click="SendButton_Click"
+                    Style="{StaticResource AccentButtonStyle}"
+                    CornerRadius="6"
+                    Padding="12,10">
+                <FontIcon Glyph="&#xE724;" FontSize="14"/>
+            </Button>
+        </Grid>
+
+        <!-- Dynamic Button Grid with Animated Transitions + Add Button -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="8">
+                <ItemsControl x:Name="ButtonsContainer" ItemsSource="{x:Bind Buttons, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Spacing="8">
+                                <StackPanel.ChildrenTransitions>
+                                    <TransitionCollection>
+                                        <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                                        <RepositionThemeTransition/>
+                                    </TransitionCollection>
+                                </StackPanel.ChildrenTransitions>
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                
+                <!-- Add Button (visible in edit mode) - at bottom of buttons list -->
+                <Button x:Name="AddButton"
+                        HorizontalAlignment="Stretch" 
+                        Visibility="Collapsed"
+                        CornerRadius="6"
+                        Click="AddButton_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE710;" FontSize="12"/>
+                        <TextBlock x:Name="AddButtonText" Text="Add Button"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+    
+</Window>

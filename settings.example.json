@@ -1,0 +1,26 @@
+{
+  "shortcut": "ctrl+space",
+  "theme": "mica",
+  "language": "en",
+  "providers": {
+    "Gemini (Recommended)": {
+      "api_key": "",
+      "model_name": "gemini-2.0-flash"
+    },
+    "OpenAI Compatible (For Experts)": {
+      "api_key": "",
+      "api_base": "https://api.openai.com/v1",
+      "model_name": "gpt-4o-mini",
+      "api_organisation": "",
+      "api_project": ""
+    },
+    "Ollama (For Experts)": {
+      "api_base": "http://localhost:11434",
+      "model_name": "llama3.1:8b",
+      "keep_alive": "15"
+    }
+  },
+  "provider": "Gemini (Recommended)",
+  "streaming": false,
+  "start_on_boot": false
+}

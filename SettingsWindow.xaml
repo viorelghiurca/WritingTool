@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="WritingTool.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Settings">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid Padding="20" KeyDown="Grid_KeyDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- App Logo -->
+            <Border Grid.Column="0" 
+                    Width="40" Height="40" 
+                    CornerRadius="10"
+                    Margin="0,0,14,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#6366F1" Offset="0"/>
+                        <GradientStop Color="#8B5CF6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <FontIcon Glyph="&#xE8D2;" FontSize="20" Foreground="White" 
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock x:Name="SettingsTitleText" 
+                           Text="Settings" 
+                           FontSize="24"
+                           FontWeight="SemiBold"/>
+                <TextBlock x:Name="SettingsSubtitleText" 
+                           Text="Configure your AI writing assistant" 
+                           Style="{StaticResource SubtitleTextStyle}"/>
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Settings Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="16">
+                
+                <!-- General Settings Card -->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel Spacing="16">
+                        <TextBlock x:Name="GeneralHeaderText" Text="General" FontWeight="SemiBold" FontSize="14"/>
+                        
+                        <!-- Language -->
+                        <StackPanel Spacing="6">
+                            <TextBlock x:Name="LanguageLabelText" Text="Language" FontWeight="SemiBold" FontSize="12"/>
+                            <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="English" Tag="en" IsSelected="True"/>
+                                <ComboBoxItem Content="Deutsch" Tag="de"/>
+                                <ComboBoxItem Content="Română" Tag="ro"/>
+                            </ComboBox>
+                        </StackPanel>
+                        
+                        <!-- Start on Boot -->
+                        <ToggleSwitch x:Name="StartOnBootCheckBox" 
+                                      Header="Start on Boot"
+                                      OffContent="Disabled" 
+                                      OnContent="Enabled"/>
+
+                        <!-- Shortcut Key -->
+                        <StackPanel Spacing="6">
+                            <TextBlock x:Name="ShortcutLabelText" Text="Shortcut Key" FontWeight="SemiBold" FontSize="12"/>
+                            <TextBox x:Name="ShortcutTextBox" 
+                                     PlaceholderText="ctrl+space"
+                                     Style="{StaticResource ModernTextBoxStyle}"/>
+                        </StackPanel>
+
+                        <!-- Background Theme -->
+                        <StackPanel Spacing="6">
+                            <TextBlock x:Name="ThemeLabelText" Text="Background Theme" FontWeight="SemiBold" FontSize="12"/>
+                            <ComboBox x:Name="ThemeComboBox" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Mica" Tag="mica" IsSelected="True"/>
+                                <ComboBoxItem Content="Mica Alt" Tag="micaalt"/>
+                                <ComboBoxItem Content="Acrylic" Tag="acrylic"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Provider Selection Card -->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel Spacing="12">
+                        <TextBlock x:Name="ProviderLabelText" Text="AI Provider" FontWeight="SemiBold" FontSize="14"/>
+                        <ComboBox x:Name="ProviderComboBox" 
+                                  HorizontalAlignment="Stretch"
+                                  SelectionChanged="ProviderComboBox_SelectionChanged">
+                            <ComboBoxItem Content="Gemini (Recommended)" Tag="Gemini (Recommended)"/>
+                            <ComboBoxItem Content="OpenAI Compatible" Tag="OpenAI Compatible (For Experts)"/>
+                            <ComboBoxItem Content="Ollama (Local)" Tag="Ollama (For Experts)"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- Provider Settings Card -->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <Border Width="28" Height="28" CornerRadius="6">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#6366F1" Offset="0"/>
+                                        <GradientStop Color="#8B5CF6" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <FontIcon Glyph="&#xE99A;" FontSize="14" Foreground="White" 
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock x:Name="ProviderTitleText" 
+                                       Text="Gemini (Recommended)"
+                                       FontSize="14" 
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Gemini Settings -->
+                        <StackPanel x:Name="GeminiPanel" Spacing="12" Visibility="Visible">
+                            <StackPanel Spacing="6">
+                                <TextBlock x:Name="GeminiApiKeyLabel" Text="API Key" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="GeminiApiKeyBox" 
+                                         PlaceholderText="Your Gemini API key"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock x:Name="GeminiModelLabel" Text="Model Name" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="GeminiModelBox" 
+                                         PlaceholderText="gemini-2.0-flash"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <HyperlinkButton x:Name="GeminiApiKeyLink" 
+                                             Content="Get Gemini API Key" 
+                                             NavigateUri="https://aistudio.google.com/apikey"/>
+                        </StackPanel>
+
+                        <!-- OpenAI Compatible Settings -->
+                        <StackPanel x:Name="OpenAIPanel" Spacing="12" Visibility="Collapsed">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="API Key" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OpenAIApiKeyBox" 
+                                         PlaceholderText="API key"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="API Base URL" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OpenAIBaseUrlBox" 
+                                         PlaceholderText="https://api.openai.com/v1"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Organisation (optional)" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OpenAIOrganisationBox" 
+                                         PlaceholderText="Leave blank if not applicable"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Project (optional)" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OpenAIProjectBox" 
+                                         PlaceholderText="Leave blank if not applicable"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Model" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OpenAIModelBox" 
+                                         PlaceholderText="gpt-4o-mini"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <HyperlinkButton x:Name="OpenAIApiKeyLink" 
+                                             Content="Get OpenAI API Key" 
+                                             NavigateUri="https://platform.openai.com/api-keys"/>
+                        </StackPanel>
+
+                        <!-- Ollama Settings -->
+                        <StackPanel x:Name="OllamaPanel" Spacing="12" Visibility="Collapsed">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="API Base URL" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OllamaBaseUrlBox" 
+                                         PlaceholderText="http://localhost:11434"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Model" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OllamaModelBox" 
+                                         PlaceholderText="llama3.1:8b"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Keep Alive (minutes)" FontSize="12" Opacity="0.8"/>
+                                <TextBox x:Name="OllamaKeepAliveBox" 
+                                         PlaceholderText="15"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+                            <HyperlinkButton x:Name="OllamaHelpLink" 
+                                             Content="Download &amp; Setup Ollama" 
+                                             NavigateUri="https://ollama.com/download"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Save Button -->
+        <Button Grid.Row="2" 
+                HorizontalAlignment="Stretch" 
+                Margin="0,20,0,0"
+                Style="{StaticResource AccentButtonStyle}"
+                CornerRadius="8"
+                Padding="16,12"
+                Click="SaveButton_Click">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE74E;" FontSize="14"/>
+                <TextBlock x:Name="SaveButtonText" Text="Save Settings" FontWeight="SemiBold"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+    
+</Window>

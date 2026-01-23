@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WritingTool (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WritingTool (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

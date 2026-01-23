@@ -1,0 +1,81 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.user
+
+# Visual Studio Code
+.vscode/
+
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Build artifacts
+*.exe
+*.dll
+*.pdb
+*.cache
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.ipch
+*.log
+*.tlog
+*.lastbuildstate
+*.FileListAbsolute.txt
+
+# Publish output
+publish/
+
+# Test Results
+[Tt]est[Rr]esult*/
+*.trx
+*.vstest.connect.json
+
+# Crash dumps
+*.dmp
+crash.*
+
+# Windows App SDK / WinUI
+Generated Files/
+*.appx
+*.appxbundle
+*.appxupload
+*.msix
+*.msixbundle
+*.msixupload
+
+# User-specific settings (users configure their own API keys)
+# Keep the template but ignore user-modified versions
+# Note: settings.json and options.json are included as templates
+settings.json
+*.pfx
+*.snk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
