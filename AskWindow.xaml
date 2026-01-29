@@ -110,6 +110,7 @@
                      Style="{StaticResource ModernTextBoxStyle}"
                      Margin="0,0,8,0"
                      PreviewKeyDown="InputBox_PreviewKeyDown"
+                     TextChanged="InputBox_TextChanged"
                      AcceptsReturn="True"
                      TextWrapping="Wrap"
                      MaxHeight="120"

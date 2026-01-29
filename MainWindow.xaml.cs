@@ -58,10 +58,10 @@ namespace WritingTool
 
         private AppWindow _appWindow = null!;
         private WindowAnimationHelper? _animationHelper;
-        private readonly int _normalWidth = 300;
-        private readonly int _normalHeight = 540;
-        private readonly int _editWidth = 340;
-        private readonly int _editHeight = 620;
+        private readonly int _normalWidth = 260;
+        private readonly int _normalHeight = 440;
+        private readonly int _editWidth = 300;
+        private readonly int _editHeight = 500;
         private readonly ConfigurationService _configService;
         private OptionsConfig _config = null!;
         private bool _isEditMode = false;
@@ -186,8 +186,8 @@ namespace WritingTool
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Tag = index,
-                CornerRadius = new CornerRadius(6),
-                Padding = new Thickness(8, 8, 8, 8)
+                CornerRadius = new CornerRadius(5),
+                Padding = new Thickness(6, 6, 6, 6)
             };
 
             // Create content with icon and text
@@ -195,7 +195,7 @@ namespace WritingTool
             {
                 Orientation = Orientation.Vertical,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Spacing = 4
+                Spacing = 3
             };
 
             // Try to load icon if path is specified
@@ -208,8 +208,8 @@ namespace WritingTool
                     {
                         var image = new Image
                         {
-                            Width = 20,
-                            Height = 20,
+                            Width = 16,
+                            Height = 16,
                             HorizontalAlignment = HorizontalAlignment.Center
                         };
                         image.Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(iconPath));
@@ -228,7 +228,7 @@ namespace WritingTool
                 Text = LocalizationService.GetButtonName(config.Name),
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                FontSize = 11
+                FontSize = 10
             };
             stackPanel.Children.Add(textBlock);
 
@@ -260,9 +260,9 @@ namespace WritingTool
             var dragHandle = new FontIcon
             {
                 Glyph = "\uE700",
-                FontSize = 12,
+                FontSize = 10,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(4, 0, 10, 0),
+                Margin = new Thickness(3, 0, 8, 0),
                 Opacity = 0.5
             };
             Grid.SetColumn(dragHandle, 0);
@@ -289,7 +289,7 @@ namespace WritingTool
                 CornerRadius = new CornerRadius(4),
                 Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent)
             };
-            editBtn.Content = new FontIcon { Glyph = "\uE70F", FontSize = 12 };
+            editBtn.Content = new FontIcon { Glyph = "\uE70F", FontSize = 10 };
             editBtn.Click += EditItemButton_Click;
             Grid.SetColumn(editBtn, 2);
             grid.Children.Add(editBtn);
@@ -303,7 +303,7 @@ namespace WritingTool
                 CornerRadius = new CornerRadius(4),
                 Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent)
             };
-            deleteBtn.Content = new FontIcon { Glyph = "\uE74D", FontSize = 12 };
+            deleteBtn.Content = new FontIcon { Glyph = "\uE74D", FontSize = 10 };
             deleteBtn.Click += DeleteItemButton_Click;
             Grid.SetColumn(deleteBtn, 3);
             grid.Children.Add(deleteBtn);

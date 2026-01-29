@@ -360,6 +360,38 @@ namespace WritingTool
             }
         }
 
+        private void InputBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Auto-scroll to keep caret visible when typing
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                var scrollViewer = FindVisualChild<ScrollViewer>(InputBox);
+                if (scrollViewer != null)
+                {
+                    // Scroll to bottom to show latest content
+                    scrollViewer.ChangeView(null, scrollViewer.ScrollableHeight, null);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Finds a child element of the specified type in the visual tree.
+        /// </summary>
+        private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T found)
+                    return found;
+
+                var foundChild = FindVisualChild<T>(child);
+                if (foundChild != null)
+                    return foundChild;
+            }
+            return null;
+        }
+
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             _ = SubmitQueryAsync();
@@ -539,7 +571,13 @@ namespace WritingTool
                 CornerRadius = new CornerRadius(8),
                 Padding = new Thickness(12, 8, 12, 8),
                 HorizontalAlignment = isUser ? HorizontalAlignment.Right : HorizontalAlignment.Left,
-                MaxWidth = 380
+                MaxWidth = GetResponsiveMaxWidth()
+            };
+            
+            // Update MaxWidth when window is resized
+            ResponseScrollViewer.SizeChanged += (s, e) =>
+            {
+                border.MaxWidth = GetResponsiveMaxWidth();
             };
 
             // Animate message entrance
@@ -550,6 +588,23 @@ namespace WritingTool
             };
 
             return border;
+        }
+
+        /// <summary>
+        /// Calculates a responsive max width for message bubbles based on the ScrollViewer's actual width.
+        /// </summary>
+        private double GetResponsiveMaxWidth()
+        {
+            // Use 90% of the available width, with a minimum of 200 and maximum of 800
+            var availableWidth = ResponseScrollViewer.ActualWidth;
+            if (availableWidth <= 0)
+            {
+                // Fallback if ScrollViewer hasn't been measured yet
+                return 400;
+            }
+            
+            var maxWidth = availableWidth * 0.90;
+            return Math.Clamp(maxWidth, 200, 800);
         }
 
         private Border CreateResponseContainer()
@@ -631,7 +686,13 @@ namespace WritingTool
                 CornerRadius = new CornerRadius(8),
                 Padding = new Thickness(12, 8, 12, 8),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                MaxWidth = 400
+                MaxWidth = GetResponsiveMaxWidth()
+            };
+            
+            // Update MaxWidth when window is resized
+            ResponseScrollViewer.SizeChanged += (s, e) =>
+            {
+                border.MaxWidth = GetResponsiveMaxWidth();
             };
 
             // Animate AI message entrance
