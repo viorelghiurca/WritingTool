@@ -655,6 +655,49 @@ namespace WritingTool
                 await _animationHelper.AnimateWindowExitAsync();
             }
             _appWindow.Hide();
+            
+            // Reset window state so it can be shown again properly
+            ResetWindowState();
+        }
+
+        /// <summary>
+        /// Resets the window to its initial compact state.
+        /// This is necessary to allow the window to be shown again after being hidden.
+        /// </summary>
+        private void ResetWindowState()
+        {
+            // Only reset if we were expanded
+            if (_isExpanded)
+            {
+                _isExpanded = false;
+                _isAnimating = false;
+                
+                // Reset to compact size
+                _appWindow.Resize(new Windows.Graphics.SizeInt32(_compactWidth, _compactHeight));
+                
+                // Hide title bar for compact mode
+                var hWnd = WindowNative.GetWindowHandle(this);
+                _appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                if (_appWindow.Presenter is OverlappedPresenter presenter)
+                {
+                    presenter.SetBorderAndTitleBar(false, false);
+                    presenter.IsResizable = false;
+                    presenter.IsMaximizable = false;
+                    presenter.IsMinimizable = false;
+                }
+                RemoveWindowBorder(hWnd);
+                
+                // Reset UI elements visibility
+                ResponseScrollViewer.Visibility = Visibility.Collapsed;
+                NewChatButton.Visibility = Visibility.Collapsed;
+                HeaderRow.Visibility = Visibility.Visible;
+                
+                // Clear conversation state
+                MessagesPanel.Children.Clear();
+                _conversationManager.Clear();
+                _currentResponseContainer = null;
+                _currentMessageHolder = null;
+            }
         }
 
         public void Show()
