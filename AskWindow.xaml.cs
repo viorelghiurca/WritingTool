@@ -73,7 +73,7 @@ namespace WritingTool
         private AppWindow _appWindow = null!;
         private WindowAnimationHelper? _animationHelper;
         private readonly int _compactWidth = 350;
-        private readonly int _compactHeight = 120;
+        private readonly int _compactHeight = 180;
         private readonly int _expandedWidth = 450;
         private readonly int _expandedHeight = 550;
 
