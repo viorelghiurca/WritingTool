@@ -54,14 +54,33 @@ See detailed guides:
 - **`settings.json`**: user-specific settings (provider choice, keys, theme, hotkey).  
   This file is **ignored by git** on purpose.
 - **`settings.example.json`**: safe template you can copy to `settings.json`.
-- **`options.json`**: action buttons (names, icons, prompts, “open in window” behavior).
+- **`options.json`**: action buttons (names, icons, prompts, "open in window" behavior).
 
 ## Privacy
 
 WritingTool sends text only to the provider you select.
 
 - If you use **Ollama**, text stays on your machine.
-- If you use a cloud provider, text is sent to that provider’s API endpoint.
+- If you use a cloud provider, text is sent to that provider's API endpoint.
+
+See [`PRIVACY.md`](PRIVACY.md) for the full privacy policy.
+
+## Code Signing Policy
+
+Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+
+**Team roles:**
+- Owner / Approver / Reviewer: [Viorel Ghiurca](https://github.com/viorelghiurca)
+
+## Windows SmartScreen
+
+When you first run WritingTool, Windows SmartScreen may show a warning because the application is new. This is normal for new software.
+
+**To run the application:**
+1. Click **"More info"** in the SmartScreen dialog
+2. Click **"Run anyway"**
+
+The application is open source — you can inspect the code and build it yourself if you prefer.
 
 ## Documentation
 
@@ -79,4 +98,3 @@ PRs and issues are welcome. Please read `CONTRIBUTING.md` first.
 This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
 
 See `LICENSE` for details.
-
