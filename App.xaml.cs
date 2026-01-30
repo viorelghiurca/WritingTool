@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using H.NotifyIcon;
@@ -293,20 +293,22 @@ namespace WritingTool
 
         private void ShowAskWindow()
         {
-            if (_askWindow != null)
-            {
-                _askWindow.ClearInput();
-                _askWindow.Show();
-            }
+            // Create a new AskWindow instance each time since WinUI 3 windows
+            // cannot be reused after being closed
+            _askWindow = new AskWindow();
+            ThemeService.ApplyTheme(_askWindow, _currentTheme);
+            _askWindow.UpdateLocalization();
+            _askWindow.Show();
         }
 
         private void ShowAskWindowCentered()
         {
-            if (_askWindow != null)
-            {
-                _askWindow.ClearInput();
-                _askWindow.ShowCentered();
-            }
+            // Create a new AskWindow instance each time since WinUI 3 windows
+            // cannot be reused after being closed
+            _askWindow = new AskWindow();
+            ThemeService.ApplyTheme(_askWindow, _currentTheme);
+            _askWindow.UpdateLocalization();
+            _askWindow.ShowCentered();
         }
 
         private void ShowSettingsWindow()

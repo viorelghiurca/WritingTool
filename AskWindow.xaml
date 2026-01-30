@@ -73,6 +73,7 @@
         <ScrollViewer Grid.Row="1" 
                       x:Name="ResponseScrollViewer"
                       VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
                       Visibility="Collapsed"
                       Margin="0,0,0,12">
             <StackPanel x:Name="MessagesPanel" Spacing="12">

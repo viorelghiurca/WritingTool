@@ -354,7 +354,10 @@ namespace WritingTool.Services
             {
                 if (item is ListItemBlock listItem)
                 {
-                    var itemPanel = new StackPanel { Orientation = Orientation.Horizontal };
+                    // Use Grid instead of horizontal StackPanel to allow proper text wrapping
+                    var itemGrid = new Grid();
+                    itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
                     // Bullet or number
                     var bullet = new TextBlock
@@ -365,7 +368,8 @@ namespace WritingTool.Services
                         FontWeight = FontWeights.Bold,
                         VerticalAlignment = VerticalAlignment.Top
                     };
-                    itemPanel.Children.Add(bullet);
+                    Grid.SetColumn(bullet, 0);
+                    itemGrid.Children.Add(bullet);
 
                     // Item content
                     var contentPanel = new StackPanel();
@@ -377,9 +381,10 @@ namespace WritingTool.Services
                             contentPanel.Children.Add(element);
                         }
                     }
-                    itemPanel.Children.Add(contentPanel);
+                    Grid.SetColumn(contentPanel, 1);
+                    itemGrid.Children.Add(contentPanel);
 
-                    stackPanel.Children.Add(itemPanel);
+                    stackPanel.Children.Add(itemGrid);
                     index++;
                 }
             }
