@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -79,6 +80,7 @@ namespace WritingTool
 
         private readonly SettingsService _settingsService = new();
         private readonly ConversationManager _conversationManager = new();
+        private readonly List<Border> _messageBorders = new();
         private CancellationTokenSource? _cancellationTokenSource;
         private bool _isExpanded = false;
         private bool _isAnimating = false;
@@ -144,6 +146,22 @@ namespace WritingTool
 
             // Initialize animation helper
             _animationHelper = new WindowAnimationHelper(_appWindow, RootGrid, DispatcherQueue);
+
+            // Register central handler for updating message bubble widths
+            ResponseScrollViewer.SizeChanged += OnResponseScrollViewerSizeChanged;
+        }
+
+        /// <summary>
+        /// Central handler for updating all message bubble max widths when the ScrollViewer is resized.
+        /// This avoids memory leaks from attaching individual handlers to each message.
+        /// </summary>
+        private void OnResponseScrollViewerSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var maxWidth = GetResponsiveMaxWidth();
+            foreach (var border in _messageBorders)
+            {
+                border.MaxWidth = maxWidth;
+            }
         }
 
         private static void RemoveWindowBorder(IntPtr hWnd)
@@ -311,6 +329,7 @@ namespace WritingTool
             ResponseScrollViewer.Visibility = Visibility.Collapsed;
             NewChatButton.Visibility = Visibility.Collapsed;
             MessagesPanel.Children.Clear();
+            _messageBorders.Clear();
             _conversationManager.Clear();
             
             // Show custom header when compact with animation
@@ -573,12 +592,9 @@ namespace WritingTool
                 HorizontalAlignment = isUser ? HorizontalAlignment.Right : HorizontalAlignment.Left,
                 MaxWidth = GetResponsiveMaxWidth()
             };
-            
-            // Update MaxWidth when window is resized
-            ResponseScrollViewer.SizeChanged += (s, e) =>
-            {
-                border.MaxWidth = GetResponsiveMaxWidth();
-            };
+
+            // Track border for centralized resize handling
+            _messageBorders.Add(border);
 
             // Animate message entrance
             border.Loaded += (s, e) =>
@@ -688,12 +704,9 @@ namespace WritingTool
                 HorizontalAlignment = HorizontalAlignment.Left,
                 MaxWidth = GetResponsiveMaxWidth()
             };
-            
-            // Update MaxWidth when window is resized
-            ResponseScrollViewer.SizeChanged += (s, e) =>
-            {
-                border.MaxWidth = GetResponsiveMaxWidth();
-            };
+
+            // Track border for centralized resize handling
+            _messageBorders.Add(border);
 
             // Animate AI message entrance
             border.Loaded += (s, e) =>
