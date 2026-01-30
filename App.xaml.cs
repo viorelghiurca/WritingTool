@@ -313,12 +313,22 @@ namespace WritingTool
 
         private void ShowSettingsWindow()
         {
-            _settingsWindow?.Show();
+            // Create a new SettingsWindow instance each time since WinUI 3 windows
+            // cannot be reused after being closed
+            _settingsWindow = new SettingsWindow();
+            ThemeService.ApplyTheme(_settingsWindow, _currentTheme);
+            _settingsWindow.UpdateLocalization();
+            _settingsWindow.Show();
         }
 
         private void ShowAboutWindow()
         {
-            _aboutWindow?.Show();
+            // Create a new AboutWindow instance each time since WinUI 3 windows
+            // cannot be reused after being closed
+            _aboutWindow = new AboutWindow();
+            ThemeService.ApplyTheme(_aboutWindow, _currentTheme);
+            _aboutWindow.UpdateLocalization();
+            _aboutWindow.Show();
         }
 
         private void ExitApplication()

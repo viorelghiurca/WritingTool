@@ -121,6 +121,33 @@
                     </StackPanel>
                 </Border>
 
+                <!-- Support Card -->
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel Spacing="12">
+                        <TextBlock x:Name="SupportLabelText" 
+                                   Text="Support the Developer" 
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"/>
+                        <Button x:Name="BuyMeCoffeeButton"
+                                Click="BuyMeCoffeeButton_Click"
+                                HorizontalAlignment="Stretch"
+                                Padding="16,12"
+                                CornerRadius="8">
+                            <Button.Background>
+                                <SolidColorBrush Color="#FFDD00"/>
+                            </Button.Background>
+                            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                                <TextBlock Text="☕" FontSize="20" VerticalAlignment="Center"/>
+                                <TextBlock Text="Buy me a coffee" 
+                                           FontSize="15" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#000000"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
             </StackPanel>
         </ScrollViewer>
 

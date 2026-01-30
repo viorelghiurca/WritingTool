@@ -3,6 +3,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using WinRT.Interop;
 using WritingTool.Services;
@@ -62,6 +63,15 @@ namespace WritingTool
             Hide();
         }
 
+        private void BuyMeCoffeeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://www.buymeacoffee.com/viorelghiurca",
+                UseShellExecute = true
+            });
+        }
+
         private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Escape)
@@ -104,6 +114,9 @@ namespace WritingTool
             // Developer card
             DeveloperRoleText.Text = LocalizationService.Get("about_developer");
             CertificationText.Text = LocalizationService.Get("about_certification");
+            
+            // Support card
+            SupportLabelText.Text = LocalizationService.Get("about_support");
         }
     }
 }
